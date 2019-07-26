@@ -12,6 +12,7 @@ import (
 type dashboardTemplateData struct {
 	Flashes    []interface{}
 	ShortLinks []*shortLink
+	Host       string
 }
 
 func (d *dashboardTemplateData) SetFlashes(flashes []interface{}) {
@@ -42,5 +43,6 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 
 	templates.Render(w, r, "dashboard", &dashboardTemplateData{
 		ShortLinks: links,
+		Host:       r.Host,
 	})
 }

@@ -21,8 +21,8 @@
     <div class="box new-link">
       <p class="new-short-link">
         {{template "chevron-down"}}
-        <span>lnks.xyz/</span> <input v-model="newShortLink" v-bind:style="{width: newShortLinkWidth + 'ch'}"
-                                      type="text" placeholder="shorturl">
+        <span>{{.Host}}/</span> <input v-model="newShortLink" v-bind:style="{width: newShortLinkWidth + 'ch'}"
+                                       type="text" placeholder="shorturl">
       </p>
       <input v-model="newLongLink" class="new-long-link" type="text" placeholder="paste long link here">
       <p class="new-link-buttons">
