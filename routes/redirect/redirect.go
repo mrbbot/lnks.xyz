@@ -53,7 +53,7 @@ func Redirect(w http.ResponseWriter, r *http.Request) {
 			log.Printf("err incrementing click count for id \"%s\": %v", id, err)
 		}
 
-		_, err = db.R.HSet(linkKey, "lastClicked", time.Now().Format(common.LastClickLayout)).Result()
+		_, err = db.R.HSet(linkKey, "lastClicked", time.Now().In(common.LocationLondon).Format(common.LastClickLayout)).Result()
 		if err != nil {
 			log.Printf("err setting last click time for id \"%s\": %v", id, err)
 		}

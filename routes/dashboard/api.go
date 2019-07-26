@@ -85,7 +85,7 @@ func ShortenLink(w http.ResponseWriter, r *http.Request) {
 		Url:         req.Url,
 		Clicks:      0,
 		LastClicked: "",
-		Created:     time.Now().Format(common.CreatedLayout),
+		Created:     time.Now().In(common.LocationLondon).Format(common.CreatedLayout),
 	}
 
 	linkKey := common.RedisLinkNamespace + link.Host + ":" + link.Id
