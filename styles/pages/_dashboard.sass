@@ -1,0 +1,208 @@
+@import '../base/variables'
+@import '../base/helpers'
+
+.dashboard
+  background-color: $light-grey
+  margin: 0 40px
+
+  #app
+    width: 100%
+    max-width: 1040px
+    margin: 0 auto
+
+    display: flex
+    flex-direction: column
+    align-items: center
+
+    .logo
+      font-size: 73px
+
+      margin: 120px 0 90px 0
+
+    > span
+      width: 100%
+      display: block
+
+    .box
+      background-color: $dark-grey
+
+      margin-bottom: 50px
+
+      position: relative
+      color: white
+      font-family: "Roboto Mono", monospace
+      font-size: 18px
+
+      @include shadow(20px)
+
+      &.new-link
+        padding: 30px 40px
+        width: calc(100% - 80px)
+
+        display: flex
+
+        > *
+          height: 24px
+
+        p
+          margin: 0
+          display: flex
+
+        .new-short-link
+          span
+            margin-left: 12px
+            line-height: 24px
+
+          input[type="text"]
+            margin: 0 20px 0 8px
+            width: 9ch
+
+        .new-long-link
+          flex-grow: 1
+          font-size: 10px
+
+        .new-link-buttons
+          font-size: 10px
+          display: flex
+          align-items: center
+
+          a.preview
+            color: $light-grey
+            margin: 0 25px
+
+          a.new
+            color: white
+            cursor: pointer
+            &.disabled
+              cursor: not-allowed
+              svg
+                stroke: $light-grey
+
+      &.link
+        padding: 20px 40px 20px 20px
+        width: calc(100% - 60px)
+
+        display: flex
+
+        transition: opacity .5s, transform .5s, background-color .5s
+        cursor: pointer
+
+        &:hover
+          background-color: lighten($dark-grey, 2.5%)
+
+        a.delete
+          cursor: pointer
+
+        .details
+          flex-grow: 1
+
+          p
+            margin: 0
+            line-height: 24px
+
+            &:not(:last-child)
+              margin-bottom: 5px
+
+          .link-details
+            > a.delete
+              display: none
+
+          .short-link
+            font-weight: 500
+
+          .long-link
+            font-weight: 300
+            color: white
+
+          .link-meta
+            font-weight: 300
+            font-style: italic
+
+        a
+          min-width: 24px
+          align-self: center
+          color: white
+
+    @media(max-width: $mq-tablet)
+      .logo
+        margin: 45px 0 30px 0
+
+      .box
+        @include shadow(10px)
+        margin-bottom: 25px
+        font-size: 16px
+
+        &.new-link
+          padding: 15px 20px 15px 15px
+          width: calc(100% - 35px)
+          flex-direction: column
+
+          > p, input
+            &:not(:last-child)
+              margin-bottom: 8px
+
+          .new-short-link
+            display: flex
+
+            input[type="text"]
+              flex-grow: 1
+              margin: 0 0 0 6px
+
+          .new-link-buttons
+            a.preview
+              margin: 0 auto 0 0
+              justify-self: flex-start
+
+            a.new
+              margin: 0 0 auto 0
+              justify-self: flex-end
+
+        &.link
+          padding: 15px 20px 15px 15px
+          width: calc(100% - 35px)
+
+          .details
+            p
+              &:not(:last-child)
+                span, a
+                  display: block
+
+                  &.dash
+                    display: none
+
+            .link-details
+              line-height: 16px
+              font-size: 12px
+              display: flex
+
+              > span
+                flex-grow: 1
+
+              > a.delete
+                display: inline-block
+
+            .long-link
+              white-space: nowrap
+              overflow: hidden
+              text-overflow: ellipsis
+              width: calc(100vw - 150px)
+
+            .link-meta
+              line-height: 15px
+              font-size: 11px
+
+              &:not(:last-child)
+                margin-bottom: 2px
+
+          > a.delete
+            display: none
+
+  @media(max-width: $mq-mobile)
+    margin: 0 35px
+
+    #app .box.new-link .new-short-link
+      svg
+        display: none
+
+      span
+        margin-left: 0

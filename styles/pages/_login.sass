@@ -1,0 +1,71 @@
+@import '../base/variables'
+@import '../base/helpers'
+
+.login #app
+  display: flex
+  align-items: center
+  justify-content: center
+
+  width: 100vw
+  height: 100vh
+
+  background-color: $dark-grey
+
+  form
+    display: flex
+    flex-direction: column
+    justify-content: center
+
+    width: 100%
+    max-width: 660px
+
+    background-color: $light-grey
+    @include shadow(20px)
+
+    .logo
+      font-size: 118px
+
+      margin: 42px 0
+
+    .inputs
+      width: 210px
+      margin: 0 auto
+      padding: 12px 30px
+
+      background-color: $dark-grey
+      @include shadow(10px)
+
+      input
+        font-size: 26px
+
+        display: block
+
+        width: 100%
+        padding: 10px 0
+
+        &:not(:last-child)
+          border-bottom: 1px solid $light-grey
+
+    input[type=submit]
+      font-size: 20px
+
+      display: block
+
+      margin: 50px auto 66px auto
+      padding: 15px 30px
+
+      cursor: pointer
+
+      background-color: $dark-grey
+      @include shadow(10px)
+
+      &:hover
+        background-color: lighten($dark-grey, 5%)
+
+    @media(max-width: $mq-tablet)
+      max-width: initial
+      height: 100%
+
+      .logo
+        font-size: 70px
+

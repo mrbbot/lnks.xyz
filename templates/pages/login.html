@@ -1,0 +1,53 @@
+{{define "login"}}
+{{- /*gotype: shortener/routes/login.loginTemplateData*/ -}}
+<!doctype html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#616161">
+  <title>Shortener</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,300i,400,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+        integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="login">
+
+<div id="app">
+  <form action="{{if .Registering}}/register{{else}}/login{{end}}" method="post">
+    <h1 class="logo">lnks.xyz</h1>
+    <div class="inputs">
+      {{if .Registering}}
+        <input type="text" name="code" placeholder="code">
+      {{end}}
+      <input type="text" name="username" placeholder="user" value="{{.Username}}">
+      <input type="password" name="password" placeholder="pass">
+    </div>
+    <input type="submit" class="button is-info is-fullwidth"
+           value="{{if .Registering}}register{{else}}login{{end}}">
+  </form>
+
+  <div class="notifications" style="display: none" v-bind:style="{display: 'block'}">
+    <transition-group name="notification">
+      <div
+        v-for="notification in notifications"
+        v-bind:key="notification.id"
+        class="notification"
+      >{{"{{"}}notification.content{{"}}"}}</div>
+    </transition-group>
+  </div>
+</div>
+
+<script>
+  window.notifcations = [
+    {{range .Flashes}}{{js .}},{{end}}
+  ];
+</script>
+<script type="module" src="/js/login.js"></script>
+
+</body>
+</html>
+{{end}}

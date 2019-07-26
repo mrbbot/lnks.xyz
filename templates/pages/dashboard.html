@@ -1,0 +1,95 @@
+{{define "dashboard"}}
+  {{- /*gotype: shortener/routes/dashboard.dashboardTemplateData*/ -}}
+  <!doctype html>
+  <html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#616161">
+    <title>Shortener</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:300,300i,400,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+          integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/css/styles.css">
+  </head>
+  <body class="dashboard">
+
+  <div id="app">
+    <h1 class="logo with-subtitle">lnks.xyz</h1>
+    <div class="box new-link">
+      <p class="new-short-link">
+        {{template "chevron-down"}}
+        <span>lnks.xyz/</span> <input v-model="newShortLink" v-bind:style="{width: newShortLinkWidth + 'ch'}"
+                                      type="text" placeholder="shorturl">
+      </p>
+      <input v-model="newLongLink" class="new-long-link" type="text" placeholder="paste long link here">
+      <p class="new-link-buttons">
+        <a v-bind:href="newLongLink" target="_blank"
+           rel="noopener noreferrer" class="preview">preview</a>
+        <a class="new" v-bind:class="{disabled: createLinkDisabled}"
+           v-on:click.prevent="createLink">{{template "plus-circle"}}</a>
+      </p>
+    </div>
+
+    <transition-group name="notification">
+      <div v-for="shortLink of shortLinks" v-bind:key="shortLink.id" class="box link" style="display: none"
+           v-bind:style="{display: 'flex'}" v-bind:data-link="shortLink.host + '/' + shortLink.id">
+        <div class="details">
+          <p class="link-details">
+            <span>
+              <span class="short-link">{{"{{"}}shortLink.host{{"}}"}}/{{"{{"}}shortLink.id{{"}}"}}</span>
+              <span class="dash"> - </span>
+              <a class="long-link" v-bind:href="shortLink.url" target="_blank"
+                 rel="noopener noreferrer" v-on:click.stop>{{"{{"}}shortLink.url{{"}}"}}</a>
+            </span>
+            <a class="delete" v-on:click.prevent.stop="deleteLink(shortLink.id)">{{template "trash-2"}}</a>
+          </p>
+          <p class="link-meta">
+            <span>{{"{{"}}shortLink.clicks == 0 ? 'no' : shortLink.clicks{{"}}"}} click{{"{{"}}shortLink.clicks == 1 ? '' : 's'{{"}}"}}</span>
+            <span v-if="shortLink.clicks" class="dash"> - </span>
+            <span v-if="shortLink.clicks">last clicked at {{"{{"}}shortLink.lastClicked{{"}}"}}</span>
+          </p>
+          <p class="link-meta">created on {{"{{"}}shortLink.created{{"}}"}}</p>
+        </div>
+        <a class="delete" v-on:click.prevent.stop="deleteLink(shortLink.id)">{{template "trash-2"}}</a>
+      </div>
+    </transition-group>
+
+    <div class="notifications" style="display: none" v-bind:style="{display: 'block'}">
+      <transition-group name="notification">
+        <div
+          v-for="notification in notifications"
+          v-bind:key="notification.id"
+          class="notification"
+        >{{"{{"}}notification.content{{"}}"}}</div>
+      </transition-group>
+    </div>
+  </div>
+
+  <script>
+    window.shortLinks = [
+      {{range .ShortLinks}}
+      {
+        host: {{js .Host}},
+        id: {{js .Id}},
+        url: {{js .Url}},
+        clicks: parseInt({{js .Clicks}}),
+        lastClicked: {{js .LastClicked}},
+        created: {{js .Created}},
+      },
+      {{end}}
+    ];
+
+    window.notifcations = [
+      {{range .Flashes}}{{js .}},{{end}}
+    ];
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"
+          integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+  <script type="module" src="/js/dashboard.js"></script>
+
+  </body>
+  </html>
+{{end}}

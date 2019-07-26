@@ -1,0 +1,49 @@
+@import '../base/variables'
+@import '../base/helpers'
+
+$notification-spacing: 20px
+$mobile-notification-horizontal-spacing: 35px
+$mobile-notification-bottom-spacing: 25px
+
+.notifications
+  position: fixed
+  z-index: 10
+  right: $notification-spacing
+  bottom: $notification-spacing
+
+  width: 350px
+
+  .notification
+    font-family: 'Roboto Mono', monospace
+    font-size: 20px
+
+    padding: 1rem
+
+    transition: opacity .5s, transform .5s
+
+    color: white
+    background-color: lighten($dark-grey, 5%)
+
+    line-height: 1.5
+
+    @include shadow(10px)
+
+    &:not(:last-child)
+      margin-bottom: $notification-spacing
+
+  @media(max-width: $mq-tablet)
+    .notification
+      font-size: 12px
+
+  @media(max-width: $mq-mobile)
+    left: $mobile-notification-horizontal-spacing
+    right: $mobile-notification-horizontal-spacing
+    bottom: $mobile-notification-bottom-spacing
+    width: auto
+
+.notification-enter,
+.notification-leave-to
+  transform: translateX(30px)
+
+  opacity: 0
+
