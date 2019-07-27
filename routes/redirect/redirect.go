@@ -8,6 +8,7 @@ import (
 	"shortener/db"
 	"shortener/routes/common"
 	"shortener/routes/templates"
+	"strings"
 	"time"
 )
 
@@ -29,7 +30,8 @@ func Redirect(w http.ResponseWriter, r *http.Request) {
 	params := httptreemux.ContextParams(r.Context())
 	id := params["id"]
 
-	linkKey := common.RedisLinkNamespace + r.Host + ":" + id
+	lowerLinkId := strings.ToLower(id)
+	linkKey := common.RedisLinkNamespace + r.Host + ":" + lowerLinkId
 
 	url, err := db.R.HGet(linkKey, "url").Result()
 	if err == redis.Nil {

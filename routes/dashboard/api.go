@@ -9,6 +9,7 @@ import (
 	"shortener/db"
 	"shortener/routes/common"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -88,7 +89,8 @@ func ShortenLink(w http.ResponseWriter, r *http.Request) {
 		Created:     time.Now().In(common.LocationLondon).Format(common.CreatedLayout),
 	}
 
-	linkKey := common.RedisLinkNamespace + link.Host + ":" + link.Id
+	lowerLinkId := strings.ToLower(link.Id)
+	linkKey := common.RedisLinkNamespace + link.Host + ":" + lowerLinkId
 
 	exists, err := db.R.Exists(linkKey).Result()
 	if err != nil {
@@ -109,7 +111,7 @@ func ShortenLink(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = db.R.LPush(common.RedisUserLinksNamespace+user+":"+link.Host, link.Id).Result()
+	_, err = db.R.LPush(common.RedisUserLinksNamespace+user+":"+link.Host, lowerLinkId).Result()
 	if err != nil {
 		log.Printf("err adding link to user's list: %v", err)
 		http.Error(w, fmt.Sprintf("err adding link to user's list: %v", err), http.StatusInternalServerError)
@@ -134,7 +136,8 @@ func DeleteLink(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	linkKey := common.RedisLinkNamespace + r.Host + ":" + req.Id
+	lowerLinkId := strings.ToLower(req.Id)
+	linkKey := common.RedisLinkNamespace + r.Host + ":" + lowerLinkId
 
 	removed, err := db.R.Del(linkKey).Result()
 	if err != nil {
@@ -146,7 +149,7 @@ func DeleteLink(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = db.R.LRem(common.RedisUserLinksNamespace+user+":"+r.Host, 0, req.Id).Result()
+	_, err = db.R.LRem(common.RedisUserLinksNamespace+user+":"+r.Host, 0, lowerLinkId).Result()
 	if err != nil {
 		log.Printf("err deleting link from user's links: %v", err)
 		http.Error(w, fmt.Sprintf("err deleting link from user's links: %v", err), http.StatusInternalServerError)

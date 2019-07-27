@@ -30,11 +30,11 @@ func Dashboard(w http.ResponseWriter, r *http.Request) {
 	}
 
 	links := make([]*shortLink, 0)
-	for _, linkId := range userLinkIds {
-		linkMap, err := db.R.HGetAll(common.RedisLinkNamespace + r.Host + ":" + linkId).Result()
+	for _, lowerLinkId := range userLinkIds {
+		linkMap, err := db.R.HGetAll(common.RedisLinkNamespace + r.Host + ":" + lowerLinkId).Result()
 		if err != nil {
-			log.Printf("err getting link map for id \"%s\": %v", linkId, err)
-			http.Error(w, fmt.Sprintf("err getting link map for id \"%s\": %v", linkId, err), http.StatusInternalServerError)
+			log.Printf("err getting link map for id \"%s\": %v", lowerLinkId, err)
+			http.Error(w, fmt.Sprintf("err getting link map for id \"%s\": %v", lowerLinkId, err), http.StatusInternalServerError)
 			return
 		}
 		link := newLinkFromMap(linkMap)
