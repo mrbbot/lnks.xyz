@@ -35,6 +35,5 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-
 	R = redis.NewClient(opt)
 }
