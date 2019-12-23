@@ -6,10 +6,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - id: deploy
         name: Dokku Deploy
-        uses: idoberko2/dokku-deploy-github-action@v1
+        uses: idoberko2/dokku-deploy-github-action@858004fdfd519b54a538375be2c2031994a722c5
         with:
-            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-            dokku-host: "server.mrbbot.dev"
-            app-name: "shortener"
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          dokku-host: "server.mrbbot.dev"
+          app-name: "shortener"
