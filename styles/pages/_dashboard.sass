@@ -90,11 +90,16 @@
         &:hover
           background-color: lighten($dark-grey, 2.5%)
 
-        a.delete
+        a.icon
           cursor: pointer
+          width: 24px
+          height: 24px
+          &:not(:last-child)
+            margin-right: 5px
 
         .details
           flex-grow: 1
+          width: 100%
 
           p
             margin: 0
@@ -104,7 +109,7 @@
               margin-bottom: 5px
 
           .link-details
-            > a.delete
+            > a.icon
               display: none
 
           .short-link
@@ -177,8 +182,9 @@
 
               > span
                 flex-grow: 1
+                min-width: 0
 
-              > a.delete
+              > a.icon
                 display: inline-block
 
             .long-link
@@ -194,7 +200,7 @@
               &:not(:last-child)
                 margin-bottom: 2px
 
-          > a.delete
+          > a.icon
             display: none
 
   @media(max-width: $mq-mobile)
@@ -206,3 +212,6 @@
 
       span
         margin-left: 0
+
+  #qr-canvas
+    display: none

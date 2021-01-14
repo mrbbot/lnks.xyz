@@ -1,5 +1,8 @@
 import Vue from "https://cdn.jsdelivr.net/npm/vue/dist/vue.esm.browser.min.js";
 import {notificationMixin} from "./notifications.js";
+import fileSaver from "https://jspm.dev/npm:file-saver@2.0.5!cjs";
+
+const qrCanvas = document.getElementById("qr-canvas");
 
 const app = new Vue({
   el: "#app",
@@ -64,6 +67,14 @@ const app = new Vue({
       } else {
         this.showNotification("An unexpected error occurred!");
       }
+    },
+    saveLinkQR: async function(link) {
+      QRCode.toCanvas(qrCanvas, `https://${link.host}/${link.id}`, { margin: 1 }, (err) => {
+        if(err) return console.error(err);
+        qrCanvas.toBlob(blob => {
+          fileSaver(blob, `${link.id}.png`);
+        });
+      });
     }
   },
   mixins: [notificationMixin]

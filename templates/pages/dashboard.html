@@ -44,7 +44,8 @@
               <a class="long-link" v-bind:href="shortLink.url" target="_blank"
                  rel="noopener noreferrer" v-on:click.stop>{{"{{"}}shortLink.url{{"}}"}}</a>
             </span>
-            <a class="delete" v-on:click.prevent.stop="deleteLink(shortLink.id)">{{template "trash-2"}}</a>
+            <a class="icon qr" v-on:click.prevent.stop="saveLinkQR(shortLink)">{{template "grid"}}</a>
+            <a class="icon delete" v-on:click.prevent.stop="deleteLink(shortLink.id)">{{template "trash-2"}}</a>
           </p>
           <p class="link-meta">
             <span>{{"{{"}}shortLink.clicks == 0 ? 'no' : shortLink.clicks{{"}}"}} click{{"{{"}}shortLink.clicks == 1 ? '' : 's'{{"}}"}}</span>
@@ -53,7 +54,8 @@
           </p>
           <p class="link-meta">created on {{"{{"}}shortLink.created{{"}}"}}</p>
         </div>
-        <a class="delete" v-on:click.prevent.stop="deleteLink(shortLink.id)">{{template "trash-2"}}</a>
+        <a class="icon qr" v-on:click.prevent.stop="saveLinkQR(shortLink)">{{template "grid"}}</a>
+        <a class="icon delete" v-on:click.prevent.stop="deleteLink(shortLink.id)">{{template "trash-2"}}</a>
       </div>
     </transition-group>
 
@@ -67,6 +69,8 @@
       </transition-group>
     </div>
   </div>
+
+  <canvas id="qr-canvas" width="512" height="512"></canvas>
 
   <script>
     window.shortLinks = [
@@ -88,6 +92,8 @@
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"
           integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"
+          integrity="sha256-DhdpoP64xch/Frz8CiBQE12en55NX+RhlPGRg6KWm5s=" crossorigin="anonymous"></script>
   <script type="module" src="/js/dashboard.js"></script>
 
   </body>
